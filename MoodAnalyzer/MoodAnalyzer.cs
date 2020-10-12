@@ -8,6 +8,10 @@ namespace MoodAnalyzerProblem
     {
         private string message;
 
+        public MoodAnalyzer()
+        {
+            message = "";
+        }
         public MoodAnalyzer(string message)
         {
             this.message = message;
