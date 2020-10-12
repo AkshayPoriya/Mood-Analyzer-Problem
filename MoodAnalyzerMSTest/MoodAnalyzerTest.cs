@@ -11,7 +11,7 @@ namespace MoodAnalyzerMSTest
         [TestInitialize]
         public void InitialSetUp()
         {
-            //moodAnalyzer = new MoodAnalyzer("sad");
+            moodAnalyzer = new MoodAnalyzer("sad");
         }
 
         [TestMethod]
@@ -23,6 +23,19 @@ namespace MoodAnalyzerMSTest
             //Act
             string actual = moodAnalyzer.AnalyseMood();
             string expected = "sad";
+            //Assert
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [DataRow("I am in any mood!")]
+        public void GivenAnyMood_ReturnHappy(string message)
+        {
+            //Arrange
+            moodAnalyzer = new MoodAnalyzer(message);
+            //Act
+            string actual = moodAnalyzer.AnalyseMood();
+            string expected = "happy";
             //Assert
             Assert.AreEqual(expected, actual);
         }
