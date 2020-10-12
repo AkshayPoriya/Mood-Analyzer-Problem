@@ -39,5 +39,18 @@ namespace MoodAnalyzerMSTest
             //Assert
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        [DataRow(null)]
+        public void GivenNullString_HandleException(string message)
+        {
+            //Arrange
+            moodAnalyzer = new MoodAnalyzer(message);
+            //Act
+            string actual = moodAnalyzer.AnalyseMood();
+            string expected = "happy";
+            //Assert
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
