@@ -1,13 +1,30 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MoodAnalyzerProblem;
 
 namespace MoodAnalyzerMSTest
 {
     [TestClass]
-    public class UnitTest1
+    public class MoodAnalyzerTest
     {
-        [TestMethod]
-        public void TestMethod1()
+        private MoodAnalyzer moodAnalyzer = null;
+        
+        [TestInitialize]
+        public void InitialSetUp()
         {
+            //moodAnalyzer = new MoodAnalyzer("sad");
+        }
+
+        [TestMethod]
+        [DataRow("I am in sad mood!")]
+        public void GivenSad_ReturnSad(string message)
+        {
+            //Arrange
+            moodAnalyzer = new MoodAnalyzer(message);
+            //Act
+            string actual = moodAnalyzer.AnalyseMood();
+            string expected = "sad";
+            //Assert
+            Assert.AreEqual(expected, actual);
         }
     }
 }
