@@ -48,7 +48,7 @@ namespace MoodAnalyzerMSTest
             moodAnalyzer = new MoodAnalyzer(message);
             //Act
             string actual = moodAnalyzer.AnalyseMood();
-            string expected = null;
+            string expected = "happy";
             //Assert
             Assert.AreEqual(expected, actual);
         }

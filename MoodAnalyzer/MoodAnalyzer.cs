@@ -29,7 +29,7 @@ namespace MoodAnalyzerProblem
             }
             catch(NullReferenceException)
             {
-                return null;
+                return "happy";
             }
         }
     }
