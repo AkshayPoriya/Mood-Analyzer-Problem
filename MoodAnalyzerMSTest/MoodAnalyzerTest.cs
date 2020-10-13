@@ -77,5 +77,55 @@ namespace MoodAnalyzerMSTest
                 Assert.AreEqual(expected, actual);
             }
         }
+
+        [TestMethod]
+        [DataRow("MoodAnalyzerProblem.MoodAnalyzer", "MoodAnalyzer")]
+        public void GivenClassName_CreateDefaultObjectUsingReflection(string className, string constructorName)
+        {
+            //Arrange
+            //Act
+            object expected = new MoodAnalyzer();
+            object actual = MoodAnalyzerFactory.CreateMoodAnalyzerObject(className, constructorName);
+            //Assert
+            Assert.AreEqual(expected.GetType(), actual.GetType()); // To check if both objects are of same type
+        }
+
+        [TestMethod]
+        [DataRow("MoodAnalyzerProblem.MoodAnalyzer1", "MoodAnalyzer1")]
+        public void GivenClassNameImproper_ThrowNoSuchClassException(string className, string constructorName)
+        {
+            try
+            {
+                //Arrange
+                object actual = MoodAnalyzerFactory.CreateMoodAnalyzerObject(className, constructorName);
+            }
+            catch(MoodAnalyzerException ex)
+            {
+                //Act
+                string actual = ex.Message;
+                string expected = "No such class exist!";
+                //Assert
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+        [TestMethod]
+        [DataRow("MoodAnalyzerProblem.MoodAnalyzer", "MoodAnalyzer1")]
+        public void GivenConstructorNameImproper_ThrowNoSuchMethodException(string className, string constructorName)
+        {
+            try
+            {
+                //Arrange
+                object actual = MoodAnalyzerFactory.CreateMoodAnalyzerObject(className, constructorName);
+            }
+            catch (MoodAnalyzerException ex)
+            {
+                //Act
+                string actual = ex.Message;
+                string expected = "No such constructor exist!";
+                //Assert
+                Assert.AreEqual(expected, actual);
+            }
+        }
     }
 }
