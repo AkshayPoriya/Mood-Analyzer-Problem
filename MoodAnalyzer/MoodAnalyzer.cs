@@ -17,6 +17,11 @@ namespace MoodAnalyzerProblem
             this.message = message;
         }
 
+        
+        // This function analyze mood, return sad if string contains sad
+        // if string is empty throw a custom exception indicating mood should not be empty
+        // if string is null then also throw a custom exception showing mood should not be null
+        // else return happy
         public string AnalyseMood()
         {
             try

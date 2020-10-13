@@ -10,7 +10,7 @@ namespace MoodAnalyzerProblem
             try
             {
                 //Creating instance of MoodAnalyzer using Reflection
-                MoodAnalyzer moodAnalyzer = (MoodAnalyzer)MoodAnalyzerFactory.CreateMoodAnalyzerObject("MoodAnalyzerProblem.MoodAnalyzer", "MoodAnalyzer");
+                MoodAnalyzer moodAnalyzer = (MoodAnalyzer)MoodAnalyzerFactory.CreateMoodAnalyzerObject("MoodAnalyzerProblem.MoodAnalyzer", "MoodAnalyzer","sad");
                 Console.WriteLine($"Mood is {moodAnalyzer.AnalyseMood()}!");
             }
             catch(MoodAnalyzerException ex)

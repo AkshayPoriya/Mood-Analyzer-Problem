@@ -92,7 +92,7 @@ namespace MoodAnalyzerMSTest
 
         [TestMethod]
         [DataRow("MoodAnalyzerProblem.MoodAnalyzer1", "MoodAnalyzer1")]
-        public void GivenClassNameImproper_ThrowNoSuchClassException(string className, string constructorName)
+        public void GivenClassNameImproper_DefaultConstructorThrowNoSuchClassException(string className, string constructorName)
         {
             try
             {
@@ -111,12 +111,81 @@ namespace MoodAnalyzerMSTest
 
         [TestMethod]
         [DataRow("MoodAnalyzerProblem.MoodAnalyzer", "MoodAnalyzer1")]
-        public void GivenConstructorNameImproper_ThrowNoSuchMethodException(string className, string constructorName)
+        public void GivenConstructorNameImproper_DefaultConstructorThrowNoSuchMethodException(string className, string constructorName)
         {
             try
             {
                 //Arrange
                 object actual = MoodAnalyzerFactory.CreateMoodAnalyzerObject(className, constructorName);
+            }
+            catch (MoodAnalyzerException ex)
+            {
+                //Act
+                string actual = ex.Message;
+                string expected = "No such constructor exist!";
+                //Assert
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+        [TestMethod]
+        [DataRow("MoodAnalyzerProblem.MoodAnalyzer", "MoodAnalyzer","I am in Sad Mood", "sad")]
+        [DataRow("MoodAnalyzerProblem.MoodAnalyzer", "MoodAnalyzer", "I am in Happy Mood", "happy")]
+        [DataRow("MoodAnalyzerProblem.MoodAnalyzer", "MoodAnalyzer", "", "Mood Should not be empty!")]
+        [DataRow("MoodAnalyzerProblem.MoodAnalyzer", "MoodAnalyzer", null, "Mood Should not be null!")]
+        public void GivenClassName_CreateParamterizedObjectUsingReflection(string className, string constructorName, string message, string expected)
+        {
+            try
+            {
+                //Arrange
+                moodAnalyzer = (MoodAnalyzer)MoodAnalyzerFactory.CreateMoodAnalyzerObject(className, constructorName, message);
+                //Act
+                string actual = moodAnalyzer.AnalyseMood();
+                //Assert
+                Assert.AreEqual(expected, actual);
+            }
+            catch (MoodAnalyzerException ex)
+            {
+                //Act
+                string actual = ex.Message;
+                //Assert
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+        [TestMethod]
+        [DataRow("MoodAnalyzerProblem.MoodAnalyzer1", "MoodAnalyzer1", "I am in Sad Mood")]
+        [DataRow("MoodAnalyzerProblem.MoodAnalyzer1", "MoodAnalyzer1", "I am in Happy Mood")]
+        [DataRow("MoodAnalyzerProblem.MoodAnalyzer1", "MoodAnalyzer1", "")]
+        [DataRow("MoodAnalyzerProblem.MoodAnalyzer1", "MoodAnalyzer1", null)]
+        public void GivenClassNameImproper_ParameterizedConstructorThrowNoSuchClassException(string className, string constructorName, string message)
+        {
+            try
+            {
+                //Arrange
+                object actual = MoodAnalyzerFactory.CreateMoodAnalyzerObject(className, constructorName, message);
+            }
+            catch (MoodAnalyzerException ex)
+            {
+                //Act
+                string actual = ex.Message;
+                string expected = "No such class exist!";
+                //Assert
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+        [TestMethod]
+        [DataRow("MoodAnalyzerProblem.MoodAnalyzer1", "MoodAnalyzer", "I am in Sad Mood")]
+        [DataRow("MoodAnalyzerProblem.MoodAnalyzer1", "MoodAnalyzer", "I am in Happy Mood")]
+        [DataRow("MoodAnalyzerProblem.MoodAnalyzer1", "MoodAnalyzer", "")]
+        [DataRow("MoodAnalyzerProblem.MoodAnalyzer1", "MoodAnalyzer", null)]
+        public void GivenConstructorNameImproper_ParameterizedConstructorThrowNoSuchMethodException(string className, string constructorName, string message)
+        {
+            try
+            {
+                //Arrange
+                object actual = MoodAnalyzerFactory.CreateMoodAnalyzerObject(className, constructorName, message);
             }
             catch (MoodAnalyzerException ex)
             {
