@@ -90,7 +90,6 @@ namespace MoodAnalyzerProblem
                 // SetValue method will throw exception
                 throw new MoodAnalyzerException(MoodAnalyzerException.ExceptionType.NO_SUCH_METHOD, "No such method exist!");
             }
-
         }
     }
 }

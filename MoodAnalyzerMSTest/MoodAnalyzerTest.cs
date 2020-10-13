@@ -1,6 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MoodAnalyzerProblem;
 using System;
+using System.Reflection;
 
 namespace MoodAnalyzerMSTest
 {
@@ -246,6 +247,32 @@ namespace MoodAnalyzerMSTest
             }
         }
 
-        public void SetField
+        [TestMethod]
+        [DataRow("message", "any mood", "happy")]
+        [DataRow("message", "sad mood", "sad")]
+        [DataRow("message", "", "Mood Should not be empty!")]
+        [DataRow("message", null, "Mood Should not be null!")]
+        [DataRow("message1", "any mood", "No such method exist!")]
+        [DataRow("messages", "sad mood", "No such method exist!")]
+        public void TestSetFieldFunction(string fieldName, string message, string expected)
+        {
+            try
+            {
+                //Arrange
+                MoodAnalyzer moodAnalyzer = new MoodAnalyzer();
+                moodAnalyzer = (MoodAnalyzer)MoodAnalyzerReflection.SetField(moodAnalyzer, fieldName, message);
+                //Act
+                string actual = moodAnalyzer.AnalyseMood();
+                //Assert
+                Assert.AreEqual(expected, actual);
+            }
+            catch(MoodAnalyzerException ex)
+            {
+                //Act
+                string actual = ex.Message;
+                //Assert
+                Assert.AreEqual(expected, actual);
+            }
+        }
     }
 }
