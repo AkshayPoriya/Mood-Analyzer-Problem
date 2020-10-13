@@ -9,9 +9,12 @@ namespace MoodAnalyzerProblem
         {
             try
             {
-                //Calling AnalyseMood using Reflection
-                string mood = MoodAnalyzerReflection.InvokeAnalyseMood("AnalyseMood", "i am in any mood!");
-                Console.WriteLine($"Mood is {mood}!");
+                ///Change Field With Reflection
+                MoodAnalyzer moodAnalyzer = new MoodAnalyzer("I am in sad mood!"); //This instance can also be created with Reflection
+                Console.WriteLine($"Initial Mood was {moodAnalyzer.AnalyseMood()}!");
+                string newMessage = "I am in happy mood!";
+                moodAnalyzer = (MoodAnalyzer)MoodAnalyzerReflection.SetField(moodAnalyzer, "message", newMessage);
+                Console.WriteLine($"New Mood is {moodAnalyzer.AnalyseMood()}!");
             }
             catch(MoodAnalyzerException ex)
             {
