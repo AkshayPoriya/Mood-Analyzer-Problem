@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace MoodAnalyzerProblem
 {
-    public class MoodAnalyzerFactory
+    public class MoodAnalyzerReflection
     {
         // className will be in format of namespace.MyClass while constructor name will be MyClass
         public static object CreateMoodAnalyzerObject(string className, string constructorName, string message = "DEfaULT")
@@ -42,6 +42,23 @@ namespace MoodAnalyzerProblem
                 //This block will execute when constructorName don't match with className, though any of them can be invalid
                 throw new MoodAnalyzerException(MoodAnalyzerException.ExceptionType.NO_SUCH_METHOD, "No such constructor exist!");
             }
+        }
+        public static string InvokeAnalyseMood(string methodName, string message)
+        {
+            try
+            {
+                MoodAnalyzer moodAnalyzer = (MoodAnalyzer)MoodAnalyzerReflection.CreateMoodAnalyzerObject("MoodAnalyzerProblem.MoodAnalyzer", "MoodAnalyzer", message);
+                var moodAnalyzerType = typeof(MoodAnalyzer);
+                var analyseMoodMethod = moodAnalyzerType.GetMethod(methodName);
+                //GetMethod Returns an object that represents the public method with the specified name, if found; otherwise, null.
+                var mood = analyseMoodMethod.Invoke(moodAnalyzer, null);
+                return mood.ToString();
+            }
+            catch(NullReferenceException)
+            {
+                throw new MoodAnalyzerException(MoodAnalyzerException.ExceptionType.NO_SUCH_METHOD, "No such method exist!");
+            }
+            
         }
     }
 }

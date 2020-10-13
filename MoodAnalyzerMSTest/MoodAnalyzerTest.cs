@@ -85,7 +85,7 @@ namespace MoodAnalyzerMSTest
             //Arrange
             //Act
             object expected = new MoodAnalyzer();
-            object actual = MoodAnalyzerFactory.CreateMoodAnalyzerObject(className, constructorName);
+            object actual = MoodAnalyzerReflection.CreateMoodAnalyzerObject(className, constructorName);
             //Assert
             Assert.AreEqual(expected.GetType(), actual.GetType()); // To check if both objects are of same type
         }
@@ -97,7 +97,7 @@ namespace MoodAnalyzerMSTest
             try
             {
                 //Arrange
-                object actual = MoodAnalyzerFactory.CreateMoodAnalyzerObject(className, constructorName);
+                object actual = MoodAnalyzerReflection.CreateMoodAnalyzerObject(className, constructorName);
             }
             catch(MoodAnalyzerException ex)
             {
@@ -116,7 +116,7 @@ namespace MoodAnalyzerMSTest
             try
             {
                 //Arrange
-                object actual = MoodAnalyzerFactory.CreateMoodAnalyzerObject(className, constructorName);
+                object actual = MoodAnalyzerReflection.CreateMoodAnalyzerObject(className, constructorName);
             }
             catch (MoodAnalyzerException ex)
             {
@@ -138,7 +138,7 @@ namespace MoodAnalyzerMSTest
             try
             {
                 //Arrange
-                moodAnalyzer = (MoodAnalyzer)MoodAnalyzerFactory.CreateMoodAnalyzerObject(className, constructorName, message);
+                moodAnalyzer = (MoodAnalyzer)MoodAnalyzerReflection.CreateMoodAnalyzerObject(className, constructorName, message);
                 //Act
                 string actual = moodAnalyzer.AnalyseMood();
                 //Assert
@@ -163,7 +163,7 @@ namespace MoodAnalyzerMSTest
             try
             {
                 //Arrange
-                object actual = MoodAnalyzerFactory.CreateMoodAnalyzerObject(className, constructorName, message);
+                object actual = MoodAnalyzerReflection.CreateMoodAnalyzerObject(className, constructorName, message);
             }
             catch (MoodAnalyzerException ex)
             {
@@ -185,7 +185,7 @@ namespace MoodAnalyzerMSTest
             try
             {
                 //Arrange
-                object actual = MoodAnalyzerFactory.CreateMoodAnalyzerObject(className, constructorName, message);
+                object actual = MoodAnalyzerReflection.CreateMoodAnalyzerObject(className, constructorName, message);
             }
             catch (MoodAnalyzerException ex)
             {
