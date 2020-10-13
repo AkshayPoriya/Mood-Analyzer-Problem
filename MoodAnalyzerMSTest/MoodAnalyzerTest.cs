@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MoodAnalyzerProblem;
+using System;
 
 namespace MoodAnalyzerMSTest
 {
@@ -192,6 +193,30 @@ namespace MoodAnalyzerMSTest
                 //Act
                 string actual = ex.Message;
                 string expected = "No such constructor exist!";
+                //Assert
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+        [TestMethod]
+        [DataRow("AnalyseMood", "i am in any mood","happy")]
+        [DataRow("AnalyseMood", "i am in sad mood","sad")]
+        [DataRow("AnalyseMood", "", "Mood Should not be empty!")]
+        [DataRow("AnalyseMood", null, "Mood Should not be null!")]
+        public void GivenProperName_InvokeAnalyseMoodWithReflection(string methodName, string message, string expected)
+        {
+            try
+            {
+                //Arrange
+                //Act
+                string actual = MoodAnalyzerReflection.InvokeAnalyseMood(methodName, message);
+                //Assert
+                Assert.AreEqual(expected, actual);
+            }
+            catch(MoodAnalyzerException ex)
+            {
+                //Act
+                string actual = ex.Message;
                 //Assert
                 Assert.AreEqual(expected, actual);
             }

@@ -43,22 +43,33 @@ namespace MoodAnalyzerProblem
                 throw new MoodAnalyzerException(MoodAnalyzerException.ExceptionType.NO_SUCH_METHOD, "No such constructor exist!");
             }
         }
+        // Invoke method using reflection
         public static string InvokeAnalyseMood(string methodName, string message)
         {
             try
             {
+                // First an instance of MoodAnalyzer is created with the help of reflection
                 MoodAnalyzer moodAnalyzer = (MoodAnalyzer)MoodAnalyzerReflection.CreateMoodAnalyzerObject("MoodAnalyzerProblem.MoodAnalyzer", "MoodAnalyzer", message);
+                // Meta information of MoodAnalyzer
                 var moodAnalyzerType = typeof(MoodAnalyzer);
-                var analyseMoodMethod = moodAnalyzerType.GetMethod(methodName);
+                // Meta information of methodName provided in arguments while calling this function
                 //GetMethod Returns an object that represents the public method with the specified name, if found; otherwise, null.
+                var analyseMoodMethod = moodAnalyzerType.GetMethod(methodName);
+                // Now invoke method using meta information of method, need an instance of class and parameters as arguments
                 var mood = analyseMoodMethod.Invoke(moodAnalyzer, null);
                 return mood.ToString();
             }
             catch(NullReferenceException)
             {
+                // Get methods returns null incase no method is found with given methodName
+                // Invoke method will throw exception
                 throw new MoodAnalyzerException(MoodAnalyzerException.ExceptionType.NO_SUCH_METHOD, "No such method exist!");
             }
-            
+            catch (TargetInvocationException ex)
+            {
+                // When message is null or empty this exception is thrown
+                throw ex.InnerException;
+            }
         }
     }
 }
