@@ -221,5 +221,29 @@ namespace MoodAnalyzerMSTest
                 Assert.AreEqual(expected, actual);
             }
         }
+
+        [TestMethod]
+        [DataRow("AnalyseMod", "i am in any mood", "No such method exist!")]
+        [DataRow("AnalyseMoood", "i am in sad mood", "No such method exist!")]
+        [DataRow("AnalyzeMood", "", "No such method exist!")]
+        [DataRow("AnalyseMood1", null, "No such method exist!")]
+        public void GivenImproperName_ThrowNoSuchMethodExceptionWhileInvokingMethod(string methodName, string message, string expected)
+        {
+            try
+            {
+                //Arrange
+                //Act
+                string actual = MoodAnalyzerReflection.InvokeAnalyseMood(methodName, message);
+                //Assert
+                Assert.AreEqual(expected, actual);
+            }
+            catch (MoodAnalyzerException ex)
+            {
+                //Act
+                string actual = ex.Message;
+                //Assert
+                Assert.AreEqual(expected, actual);
+            }
+        }
     }
 }
