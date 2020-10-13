@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace MoodAnalyzerProblem
 {
@@ -8,7 +9,8 @@ namespace MoodAnalyzerProblem
         {
             try
             {
-                MoodAnalyzer moodAnalyzer = new MoodAnalyzer("");
+                //Creating instance of MoodAnalyzer using Reflection
+                MoodAnalyzer moodAnalyzer = (MoodAnalyzer)MoodAnalyzerFactory.CreateMoodAnalyzerObject("MoodAnalyzerProblem.MoodAnalyzer", "MoodAnalyzer");
                 Console.WriteLine($"Mood is {moodAnalyzer.AnalyseMood()}!");
             }
             catch(MoodAnalyzerException ex)
