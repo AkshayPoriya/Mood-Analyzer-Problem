@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace MoodAnalyzerProblem
 {
-    class MoodAnalyzerFactory
+    public class MoodAnalyzerFactory
     {
         // className will be in format of namespace.MyClass while constructor name will be MyClass
         public static object CreateMoodAnalyzerObject(string className, string constructorName)

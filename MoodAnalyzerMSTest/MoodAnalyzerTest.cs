@@ -77,5 +77,17 @@ namespace MoodAnalyzerMSTest
                 Assert.AreEqual(expected, actual);
             }
         }
+
+        [TestMethod]
+        [DataRow("MoodAnalyzerProblem.MoodAnalyzer", "MoodAnalyzer")]
+        public void GivenClassName_CreateDefaultObjectUsingReflection(string className, string constructorName)
+        {
+            //Arrange
+            //Act
+            object expected = new MoodAnalyzer();
+            object actual = MoodAnalyzerFactory.CreateMoodAnalyzerObject(className, constructorName);
+            //Assert
+            Assert.AreEqual(expected.GetType(), actual.GetType()); // To check if both objects are of same type
+        }
     }
 }
