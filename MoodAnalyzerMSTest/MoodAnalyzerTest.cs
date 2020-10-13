@@ -245,5 +245,7 @@ namespace MoodAnalyzerMSTest
                 Assert.AreEqual(expected, actual);
             }
         }
+
+        public void SetField
     }
 }
