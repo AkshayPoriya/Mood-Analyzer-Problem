@@ -174,5 +174,27 @@ namespace MoodAnalyzerMSTest
                 Assert.AreEqual(expected, actual);
             }
         }
+
+        [TestMethod]
+        [DataRow("MoodAnalyzerProblem.MoodAnalyzer1", "MoodAnalyzer", "I am in Sad Mood")]
+        [DataRow("MoodAnalyzerProblem.MoodAnalyzer1", "MoodAnalyzer", "I am in Happy Mood")]
+        [DataRow("MoodAnalyzerProblem.MoodAnalyzer1", "MoodAnalyzer", "")]
+        [DataRow("MoodAnalyzerProblem.MoodAnalyzer1", "MoodAnalyzer", null)]
+        public void GivenConstructorNameImproper_ParameterizedConstructorThrowNoSuchMethodException(string className, string constructorName, string message)
+        {
+            try
+            {
+                //Arrange
+                object actual = MoodAnalyzerFactory.CreateMoodAnalyzerObject(className, constructorName, message);
+            }
+            catch (MoodAnalyzerException ex)
+            {
+                //Act
+                string actual = ex.Message;
+                string expected = "No such constructor exist!";
+                //Assert
+                Assert.AreEqual(expected, actual);
+            }
+        }
     }
 }
