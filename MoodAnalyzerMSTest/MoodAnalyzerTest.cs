@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MoodAnalyzerProblem;
+using System;
 
 namespace MoodAnalyzerMSTest
 {
@@ -85,7 +86,7 @@ namespace MoodAnalyzerMSTest
             //Arrange
             //Act
             object expected = new MoodAnalyzer();
-            object actual = MoodAnalyzerFactory.CreateMoodAnalyzerObject(className, constructorName);
+            object actual = MoodAnalyzerReflection.CreateMoodAnalyzerObject(className, constructorName);
             //Assert
             Assert.AreEqual(expected.GetType(), actual.GetType()); // To check if both objects are of same type
         }
@@ -97,7 +98,7 @@ namespace MoodAnalyzerMSTest
             try
             {
                 //Arrange
-                object actual = MoodAnalyzerFactory.CreateMoodAnalyzerObject(className, constructorName);
+                object actual = MoodAnalyzerReflection.CreateMoodAnalyzerObject(className, constructorName);
             }
             catch(MoodAnalyzerException ex)
             {
@@ -116,7 +117,7 @@ namespace MoodAnalyzerMSTest
             try
             {
                 //Arrange
-                object actual = MoodAnalyzerFactory.CreateMoodAnalyzerObject(className, constructorName);
+                object actual = MoodAnalyzerReflection.CreateMoodAnalyzerObject(className, constructorName);
             }
             catch (MoodAnalyzerException ex)
             {
@@ -138,7 +139,7 @@ namespace MoodAnalyzerMSTest
             try
             {
                 //Arrange
-                moodAnalyzer = (MoodAnalyzer)MoodAnalyzerFactory.CreateMoodAnalyzerObject(className, constructorName, message);
+                moodAnalyzer = (MoodAnalyzer)MoodAnalyzerReflection.CreateMoodAnalyzerObject(className, constructorName, message);
                 //Act
                 string actual = moodAnalyzer.AnalyseMood();
                 //Assert
@@ -163,7 +164,7 @@ namespace MoodAnalyzerMSTest
             try
             {
                 //Arrange
-                object actual = MoodAnalyzerFactory.CreateMoodAnalyzerObject(className, constructorName, message);
+                object actual = MoodAnalyzerReflection.CreateMoodAnalyzerObject(className, constructorName, message);
             }
             catch (MoodAnalyzerException ex)
             {
@@ -185,13 +186,61 @@ namespace MoodAnalyzerMSTest
             try
             {
                 //Arrange
-                object actual = MoodAnalyzerFactory.CreateMoodAnalyzerObject(className, constructorName, message);
+                object actual = MoodAnalyzerReflection.CreateMoodAnalyzerObject(className, constructorName, message);
             }
             catch (MoodAnalyzerException ex)
             {
                 //Act
                 string actual = ex.Message;
                 string expected = "No such constructor exist!";
+                //Assert
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+        [TestMethod]
+        [DataRow("AnalyseMood", "i am in any mood","happy")]
+        [DataRow("AnalyseMood", "i am in sad mood","sad")]
+        [DataRow("AnalyseMood", "", "Mood Should not be empty!")]
+        [DataRow("AnalyseMood", null, "Mood Should not be null!")]
+        public void GivenProperName_InvokeAnalyseMoodWithReflection(string methodName, string message, string expected)
+        {
+            try
+            {
+                //Arrange
+                //Act
+                string actual = MoodAnalyzerReflection.InvokeAnalyseMood(methodName, message);
+                //Assert
+                Assert.AreEqual(expected, actual);
+            }
+            catch(MoodAnalyzerException ex)
+            {
+                //Act
+                string actual = ex.Message;
+                //Assert
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+        [TestMethod]
+        [DataRow("AnalyseMod", "i am in any mood", "No such method exist!")]
+        [DataRow("AnalyseMoood", "i am in sad mood", "No such method exist!")]
+        [DataRow("AnalyzeMood", "", "No such method exist!")]
+        [DataRow("AnalyseMood1", null, "No such method exist!")]
+        public void GivenImproperName_ThrowNoSuchMethodExceptionWhileInvokingMethod(string methodName, string message, string expected)
+        {
+            try
+            {
+                //Arrange
+                //Act
+                string actual = MoodAnalyzerReflection.InvokeAnalyseMood(methodName, message);
+                //Assert
+                Assert.AreEqual(expected, actual);
+            }
+            catch (MoodAnalyzerException ex)
+            {
+                //Act
+                string actual = ex.Message;
                 //Assert
                 Assert.AreEqual(expected, actual);
             }

@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace MoodAnalyzerProblem
 {
-    public class MoodAnalyzerFactory
+    public class MoodAnalyzerReflection
     {
         // className will be in format of namespace.MyClass while constructor name will be MyClass
         public static object CreateMoodAnalyzerObject(string className, string constructorName, string message = "DEfaULT")
@@ -41,6 +41,34 @@ namespace MoodAnalyzerProblem
             {
                 //This block will execute when constructorName don't match with className, though any of them can be invalid
                 throw new MoodAnalyzerException(MoodAnalyzerException.ExceptionType.NO_SUCH_METHOD, "No such constructor exist!");
+            }
+        }
+        // Invoke method using reflection
+        public static string InvokeAnalyseMood(string methodName, string message)
+        {
+            try
+            {
+                // First an instance of MoodAnalyzer is created with the help of reflection
+                MoodAnalyzer moodAnalyzer = (MoodAnalyzer)MoodAnalyzerReflection.CreateMoodAnalyzerObject("MoodAnalyzerProblem.MoodAnalyzer", "MoodAnalyzer", message);
+                // Meta information of MoodAnalyzer
+                var moodAnalyzerType = typeof(MoodAnalyzer);
+                // Meta information of methodName provided in arguments while calling this function
+                //GetMethod Returns an object that represents the public method with the specified name, if found; otherwise, null.
+                var analyseMoodMethod = moodAnalyzerType.GetMethod(methodName);
+                // Now invoke method using meta information of method, need an instance of class and parameters as arguments
+                var mood = analyseMoodMethod.Invoke(moodAnalyzer, null);
+                return mood.ToString();
+            }
+            catch(NullReferenceException)
+            {
+                // Get methods returns null incase no method is found with given methodName
+                // Invoke method will throw exception
+                throw new MoodAnalyzerException(MoodAnalyzerException.ExceptionType.NO_SUCH_METHOD, "No such method exist!");
+            }
+            catch (TargetInvocationException ex)
+            {
+                // When message is null or empty this exception is thrown
+                throw ex.InnerException;
             }
         }
     }
